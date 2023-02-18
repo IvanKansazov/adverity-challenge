@@ -1,15 +1,15 @@
-import uuid
-
-from django.http import HttpResponse, JsonResponse
-from django.shortcuts import render
-
-from adverity.characters import Characters
-from adverity.settings import BASE_DIR
-from adverity.models import Collections
-
 import os
+import uuid
 import petl as etl
 import datetime
+
+from django.shortcuts import render
+from django.http import HttpResponse, JsonResponse
+
+from adverity.characters import Characters
+from adverity.table_formatter import TableFormatter
+from adverity.settings import BASE_DIR
+from adverity.models import Collections
 
 
 def show_collections(request):
@@ -40,3 +40,26 @@ def _save_characters_to_csv(characters):
     _url = os.path.join("adverity", "csvs", csv_name)
     etl.tocsv(table, path)
     return _url
+
+
+def view_collection(request, _id, max_rows=10):
+    return render(request, 'characters.html', _get_table_context(_id, max_rows))
+
+
+def _get_table_context(csv_id, max_rows):
+    etl_table = _get_table(csv_id)
+    formatted_table = TableFormatter(etl_table, max_rows).format()
+    table_iterator = iter(formatted_table)
+    headers = next(table_iterator)
+    context = {
+        'table_headers': headers,
+        'table_rows': table_iterator,
+        'table_id': csv_id
+    }
+    return context
+
+
+def _get_table(csv_id):
+    collection = Collections.objects.get(id=csv_id)
+    csv_path = os.path.join(BASE_DIR, "static", collection.url)
+    return etl.fromcsv(csv_path)
