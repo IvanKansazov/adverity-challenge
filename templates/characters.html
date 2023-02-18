@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Star Wars Explorer</title>
+</head>
+<body>
+<h1 style="text-align: center">Star Wars Explorer</h1>
+<div id="table" style="padding-top: 20px">
+    <table class='petl'>
+        <thead>
+        <form id="headers-form" method="post">
+        {% csrf_token %}
+        <tr>
+            {% for header in table_headers %}
+                <th><input type="checkbox" name="headers" value="{{ header }}">{{ header }}</th>
+            {% endfor %}
+            <th>
+                <button type=submit id="btn-duplicates">Count duplicates</button>
+            </th>
+        </form>
+        </tr>
+        </thead>
+        <tbody>
+        {% for rows in table_rows %}
+            <tr>
+                {% for row in rows %}
+                    <td>{{ row }}</td>
+                {% endfor %}
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+<button class="btn-loadmore">Load more</button>
+<script>
+    document.querySelectorAll('.btn-loadmore').forEach(button => {
+        button.addEventListener('click', event => {
+            let pathname = new URL(window.location.href).pathname;
+            let pathname_items = pathname.split('/')
+            let new_path = ''
+            if (pathname_items.length === 4) {
+                new_path = pathname + '/' + 20
+            } else {
+                let max_rows = parseInt(pathname_items.pop())
+                pathname = pathname_items.join('/')
+                new_path = pathname + '/' + (max_rows + 10)
+            }
+            window.location.href = new_path
+        })
+    })
+</script>
+<script>
+    let button = document.getElementById('btn-duplicates')
+    button.addEventListener('click', event => {
+        let inputs = document.querySelectorAll('.toggleCheckbox')
+        console.log(inputs)
+
+    })
+</script>

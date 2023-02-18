@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Star Wars Explorer</title>
+</head>
+<body>
+<h1 style="text-align: center">Star Wars Explorer</h1>
+<div id="table" style="padding-top: 20px">
+    <table class='petl'>
+        <thead>
+        <tr>
+            {% for header in table_headers %}
+                <th>{{ header }}</th>
+            {% endfor %}
+        </tr>
+        </thead>
+        <tbody>
+        {% for rows in table_rows %}
+            <tr>
+                {% for row in rows %}
+                    <td>{{ row }}</td>
+                {% endfor %}
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
