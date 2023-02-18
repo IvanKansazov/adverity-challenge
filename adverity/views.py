@@ -43,7 +43,26 @@ def _save_characters_to_csv(characters):
 
 
 def view_collection(request, _id, max_rows=10):
+    if request.method == 'POST':
+        headers = request.POST.getlist('headers')
+        if not headers:
+            return render(request, 'characters.html', _get_table_context(_id, max_rows))
+        return render(request, 'duplicates.html', _get_table_duplicates_context(_id, headers))
     return render(request, 'characters.html', _get_table_context(_id, max_rows))
+
+
+def _get_table_duplicates_context(csv_id, headers):
+    etl_table = _get_table(csv_id)
+    table = etl.cut(etl_table, headers)
+    table = etl.transform.dedup.distinct(table, count='count')
+    table_iterator = iter(table)
+    headers = next(table_iterator)
+    context = {
+        'table_headers': headers,
+        'table_rows': table_iterator,
+        'table_id': csv_id
+    }
+    return context
 
 
 def _get_table_context(csv_id, max_rows):
