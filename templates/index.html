@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    {% load static %}
+    <link href="{% static 'adverity/bootstrap/bootstrap.min.css' %}" rel="stylesheet">
     <meta charset="UTF-8">
     <title>Star Wars Explorer</title>
     <style>
@@ -8,9 +10,10 @@
             border: 5px solid #d8d8d8;
             border-radius: 50%;
             border-top: 5px solid #444444;
-            width: 10px;
-            height: 10px;
-            animation: spin 1s linear infinite;
+            width: 20px;
+            height: 20px;
+            animation: spin 2s linear infinite;
+            display: none;
         }
 
         @keyframes spin {
@@ -21,27 +24,27 @@
     </style>
 </head>
 <body>
+<div class="container">
 <h1 style="text-align: center">Star Wars Explorer</h1>
-<h2>Character collection
-    <button id="fetch-characters">Fetch</button>
-    <div id="loader" style="display: none"></div>
-</h2>
+<h3 class="pb-3">Character collection
+    <button id="fetch-characters" class="btn btn-outline-success btn-sm">Fetch</button>
+    <div id="loader"></div>
+</h3>
 
-<div id="table" style="padding-top: 20px">
-    <table>
-        <tbody>
-        {% load static %}
-        {% for row in db_rows %}
-            <tr>
-                <td>{{ row.2 }}
-                    <button class="btn-inspect" data-arg="{{ row.0 }}">Inspect</button>
-                    <button class="btn-download" data-arg="{% static row.1 %}">Download</button>
-                </td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-</div>
+<table class="table">
+    <tbody>
+    {% for row in db_rows %}
+        <tr>
+            <td>{{ row.2 }}
+            </td>
+            <td class="text-end">
+                <button class="btn-inspect btn btn-sm btn-outline-primary" data-arg="{{ row.0 }}">Inspect</button>
+                <button class="btn-download btn btn-sm btn-success" data-arg="{% static row.1 %}">Download</button>
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
 
 <script>
     document.querySelectorAll('.btn-inspect').forEach(button => {
@@ -76,5 +79,7 @@
         };
     })
 </script>
+<script src="{% static 'adverity/bootstrap/bootstrap.min.css' %}"></script>
+</div>
 </body>
 </html>
