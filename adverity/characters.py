@@ -18,6 +18,7 @@ class Characters:
                 self.append_characters()
             else:
                 break
+        return self.all_characters
 
     def request(self, _url='https://swapi.dev/api/people'):
         response = requests.get(_url)
