@@ -6,6 +6,7 @@ class Characters:
     def __init__(self):
         self.all_characters = {'Characters': []}
         self.swapi_response = None
+        self.planets = {}
 
     def get_all(self):
         sw_people_url = 'https://swapi.dev/api/people'
@@ -26,7 +27,19 @@ class Characters:
         for i, character in enumerate(self.swapi_response.get('results')):
             date = datetime.strptime(character.get('edited'), '%Y-%m-%dT%H:%M:%S.%fZ')
             self.swapi_response.get('results')[i]['edited'] = date.strftime('%Y-%m-%d')
-            self.swapi_response.get('results')[i]['homeworld'] = self.resolve_homeworld(character.get('homeworld'))
+
+            homeworld_url = character.get('homeworld')
+            if self.is_homeworld_resolved(homeworld_url):
+                self.swapi_response.get('results')[i]['homeworld'] = self.planets.get(homeworld_url)
+            else:
+                homeworld_name = self.resolve_homeworld(homeworld_url)
+                self.planets[homeworld_url] = homeworld_name
+                self.swapi_response.get('results')[i]['homeworld'] = homeworld_name
+
+    def is_homeworld_resolved(self, homeworld_url):
+        if len(self.planets) > 0 and bool(self.planets.get(homeworld_url)):
+            return True
+        return False
 
     @staticmethod
     def resolve_homeworld(homeworld_url):
