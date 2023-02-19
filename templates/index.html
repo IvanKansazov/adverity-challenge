@@ -24,62 +24,62 @@
     </style>
 </head>
 <body>
-<div class="container">
-<h1 style="text-align: center">Star Wars Explorer</h1>
-<h3 class="pb-3">Character collection
-    <button id="fetch-characters" class="btn btn-outline-success btn-sm">Fetch</button>
-    <div id="loader"></div>
-</h3>
+<div class="container p-3">
+    <h1 class="text-center p-3">Star Wars Explorer</h1>
+    <h3 class="pb-3">Character collection
+        <button id="fetch-characters" class="btn btn-outline-success btn-sm">Fetch</button>
+        <div id="loader"></div>
+    </h3>
 
-<table class="table">
-    <tbody>
-    {% for row in db_rows %}
-        <tr>
-            <td>{{ row.2 }}
-            </td>
-            <td class="text-end">
-                <button class="btn-inspect btn btn-sm btn-outline-primary" data-arg="{{ row.0 }}">Inspect</button>
-                <button class="btn-download btn btn-sm btn-success" data-arg="{% static row.1 %}">Download</button>
-            </td>
-        </tr>
-    {% endfor %}
-    </tbody>
-</table>
+    <table class='table text-nowrap'>
+        <tbody>
+        {% for row in db_rows %}
+            <tr>
+                <td>{{ row.2 }}
+                </td>
+                <td class="text-end">
+                    <button class="btn-inspect btn btn-sm btn-outline-primary" data-arg="{{ row.0 }}">Inspect</button>
+                    <button class="btn-download btn btn-sm btn-success" data-arg="{% static row.1 %}">Download</button>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
 
-<script>
-    document.querySelectorAll('.btn-inspect').forEach(button => {
-        button.addEventListener('click', event => {
-            window.location.href = "/view/collection/" + button.getAttribute('data-arg')
+    <script>
+        document.querySelectorAll('.btn-inspect').forEach(button => {
+            button.addEventListener('click', event => {
+                window.location.href = "/view/collection/" + button.getAttribute('data-arg')
+            })
         })
-    })
 
-</script>
-<script>
-    document.querySelectorAll('.btn-download').forEach(button => {
-        button.addEventListener('click', event => {
-            download_url = button.getAttribute('data-arg')
-            console.log(download_url)
-            window.location.href = download_url
+    </script>
+    <script>
+        document.querySelectorAll('.btn-download').forEach(button => {
+            button.addEventListener('click', event => {
+                download_url = button.getAttribute('data-arg')
+                console.log(download_url)
+                window.location.href = download_url
+            })
         })
-    })
-</script>
-<script>
-    let button = document.getElementById('fetch-characters')
-    let loader = document.getElementById('loader')
-    button.addEventListener('click', event => {
-        button.style.display = 'none'
-        loader.style.display = 'block';
-        let xhttp = new XMLHttpRequest();
-        xhttp.open("GET", "/fetch/collection", true);
-        xhttp.send();
-        xhttp.onreadystatechange = function () {
-            if (this.readyState === 4 && this.status === 200) {
-                location.reload()
-            }
-        };
-    })
-</script>
-<script src="{% static 'adverity/bootstrap/bootstrap.min.css' %}"></script>
+    </script>
+    <script>
+        let button = document.getElementById('fetch-characters')
+        let loader = document.getElementById('loader')
+        button.addEventListener('click', event => {
+            button.style.display = 'none'
+            loader.style.display = 'block';
+            let xhttp = new XMLHttpRequest();
+            xhttp.open("GET", "/fetch/collection", true);
+            xhttp.send();
+            xhttp.onreadystatechange = function () {
+                if (this.readyState === 4 && this.status === 200) {
+                    location.reload()
+                }
+            };
+        })
+    </script>
+    <script src="{% static 'adverity/bootstrap/bootstrap.min.css' %}"></script>
 </div>
 </body>
 </html>
