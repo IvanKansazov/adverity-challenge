@@ -1,13 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    {% load static %}
+    <link href="{% static 'adverity/bootstrap/bootstrap.min.css' %}" rel="stylesheet">
     <meta charset="UTF-8">
     <title>Star Wars Explorer</title>
 </head>
 <body>
-<h1 style="text-align: center">Star Wars Explorer</h1>
-<div id="table" style="padding-top: 20px">
-    <table class='petl'>
+<div class="container p-3">
+    <h1 class="text-center p-3">Star Wars Explorer</h1>
+    <table class='table text-nowrap'>
         <thead>
         <tr>
             {% for header in table_headers %}
@@ -25,4 +27,7 @@
         {% endfor %}
         </tbody>
     </table>
+    <script src="{% static 'adverity/bootstrap/bootstrap.min.css' %}"></script>
 </div>
+</body>
+</html>
