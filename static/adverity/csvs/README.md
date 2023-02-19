@@ -1,0 +1,1 @@
+## csv character collections will be saved in this folder
