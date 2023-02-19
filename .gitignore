@@ -1,5 +1,6 @@
 modules
+venv
 .idea
 adverity/db.cnf
-/static/adverity/csvs/
+/static/adverity/csvs/*
 /static/adverity/admin
