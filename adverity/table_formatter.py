@@ -16,3 +16,8 @@ class TableFormatter:
                             'gender',
                             'homeworld', 'edited']
         self.table = etl.cut(self.table, required_columns)
+
+    def get_duplicates_table(self, duplicate_keys):
+        self.table = etl.cut(self.table, duplicate_keys)
+        self.table = etl.transform.dedup.distinct(self.table, count='count')
+        return self.table

@@ -53,9 +53,8 @@ def view_collection(request, _id, max_rows=10):
 
 def _get_table_duplicates_context(csv_id, headers):
     etl_table = _get_table(csv_id)
-    table = etl.cut(etl_table, headers)
-    table = etl.transform.dedup.distinct(table, count='count')
-    table_iterator = iter(table)
+    formatted_table = TableFormatter(etl_table).get_duplicates_table(headers)
+    table_iterator = iter(formatted_table)
     headers = next(table_iterator)
     context = {
         'table_headers': headers,
