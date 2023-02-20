@@ -54,9 +54,9 @@ DATABASE_CNF = os.path.join(BASE_DIR, "adverity/db.cnf")
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'OPTIONS': {
-            'read_default_file': DATABASE_CNF,
-        },
+        'NAME': 'adverity',
+        'PASSWORD': 'toor',
+        'HOST': 'db'
     }
 }
 

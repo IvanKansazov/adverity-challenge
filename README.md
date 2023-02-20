@@ -1,23 +1,27 @@
 # Star Wars Explorer
 
-## Codebase setup
-    $ git clone https://github.com/IvanKansazov/adverity-challenge
-    $ cd adverity-challenge
-    $ python3 -m venv venv
-    $ source venv/bin/activate
-    $ pip install -r requirements.txt
+Prerequisites
+-----
 
-## Database setup
-    $ mysql -u db_user -p
-    CREATE DATABASE db_name;\q
-#### Create db.cnf file from template
-    $ cd adverity && cp db.cnf.example db.cnf
-    
-#### Enter database credentials
-    $ vi db.cnf 
-#### Migrations
-    $ cd ../
-    $ python manage.py migrate
+Docker up and running.
 
-## Start 
-    $ python manage.py runserver
+Build
+-----
+
+Steps to build a Docker image:
+
+1. Clone this repo
+
+        $ git clone https://github.com/IvanKansazov/adverity-challenge
+
+2. Build the image
+
+        $ cd adverity-challenge
+        $ docker compose up
+
+    This will take a few minutes.
+
+
+3. Once everything has started up, you should be able to access the webapp via [http://127.0.0.1:8888/](http://127.0.0.1:8888/) on your host machine.
+
+        open http://127.0.0.1:8888/
