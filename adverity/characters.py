@@ -1,12 +1,11 @@
 import requests
 from datetime import datetime
-
+from adverity.models import Planets
 
 class Characters:
     def __init__(self):
         self.all_characters = {'Characters': []}
         self.swapi_response = None
-        self.planets = {}
 
     def get_all(self):
         sw_people_url = 'https://swapi.dev/api/people'
@@ -31,16 +30,14 @@ class Characters:
             self.swapi_response.get('results')[i]['homeworld'] = self.get_homeworld(character.get('homeworld'))
 
     def get_homeworld(self, homeworld_url):
-        if self.is_homeworld_resolved(homeworld_url):
-            return self.planets.get(homeworld_url)
-        homeworld_name = self.resolve_homeworld(homeworld_url)
-        self.planets[homeworld_url] = homeworld_name
+        homeworld_name = ''
+        try:
+            planet = Planets.objects.get(url=homeworld_url)
+            homeworld_name = planet.name
+        except Planets.DoesNotExist:
+            homeworld_name = self.resolve_homeworld(homeworld_url)
+            Planets(url=homeworld_url, name=homeworld_name).save()
         return homeworld_name
-
-    def is_homeworld_resolved(self, homeworld_url):
-        if len(self.planets) > 0 and bool(self.planets.get(homeworld_url)):
-            return True
-        return False
 
     @staticmethod
     def resolve_homeworld(homeworld_url):
